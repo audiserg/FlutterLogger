@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Logger for TCP',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Extratool Sniffer for ICOM and ENET'),
     );
   }
 }
@@ -49,6 +50,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  int _pid = 0;
+  String _statusText = "";
+
+  void _startTcpDump() async {
+    var process = await Process.start("tcpdump", ["-w", "capture.pcap"]);
+    _pid = process.pid;
+    setState(() {
+      _statusText = "RECORDING";
+    });
+  }
+
+  void _stopTcpDump() {
+    Process.killPid(_pid);
+    setState(() {
+      _statusText = "RECORD STOPPED";
+    });
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -95,11 +113,10 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+            ElevatedButton(onPressed: _startTcpDump, child: Text("START")),
+            ElevatedButton(onPressed: _stopTcpDump, child: Text("STOP")),
             Text(
-              '$_counter',
+              '$_statusText',
               style: Theme.of(context).textTheme.headline4,
             ),
           ],
