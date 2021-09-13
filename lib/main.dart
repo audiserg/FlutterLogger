@@ -54,7 +54,9 @@ class _MyHomePageState extends State<MyHomePage> {
   String _statusText = "";
 
   void _startTcpDump() async {
-    var process = await Process.start("tcpdump", ["-w", "capture.pcap"]);
+    // var process = await Process.start("tcpdump.exe", ["-w", "capture.pcap"]);
+    var process = await Process.start(
+        "netsh", ["trace", "start", "capture = yes", "tracefile=./captured"]);
     _pid = process.pid;
     setState(() {
       _statusText = "RECORDING";
@@ -62,7 +64,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void _stopTcpDump() {
-    Process.killPid(_pid);
+    // Process.killPid(_pid);
+    Process.start("netsh trace stop", []);
     setState(() {
       _statusText = "RECORD STOPPED";
     });
