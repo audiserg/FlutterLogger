@@ -54,9 +54,10 @@ class _MyHomePageState extends State<MyHomePage> {
   String _statusText = "";
 
   void _startTcpDump() async {
-    // var process = await Process.start("tcpdump.exe", ["-w", "capture.pcap"]);
+    // var process = await Process.start("tcpdump.exe", ["-w", "capture.pcap"],{});
     var process = await Process.start("netsh",
-        ["trace", "start", "capture = yes", "tracefile = captured.etl"]);
+        ["trace", "start", "capture = yes", "tracefile = captured.etl"],
+        runInShell: true);
     _pid = process.pid;
     setState(() {
       _statusText = "RECORDING";
