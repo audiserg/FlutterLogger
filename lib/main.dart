@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'dart:io';
 
@@ -55,8 +57,14 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _startTcpDump() async {
     // var process = await Process.start("tcpdump.exe", ["-w", "capture.pcap"],{});
-    await Process.start("clear.lnk", [], runInShell: true);
     var process = await Process.start("direct.lnk", [], runInShell: true);
+    var processcode = process.exitCode;
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+              title: Text("Result"), content: Text("$processcode"));
+        });
     _pid = process.pid;
     setState(() {
       _statusText = "RECORDING";
