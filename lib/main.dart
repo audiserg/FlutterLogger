@@ -54,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String _statusText = "";
 
   void _startTcpDump() async {
+    // var process = await Process.start("tcpdump.exe", ["-w", "capture.pcap"],{});
     var process = await Process.start("direct.lnk", []);
     _pid = process.pid;
     setState(() {
@@ -61,9 +62,9 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _stopTcpDump() async {
-    var process = await Process.start("stop.lnk", []);
+  void _stopTcpDump() {
     // Process.killPid(_pid);
+    Process.start("stop.lnk", []);
     setState(() {
       _statusText = "RECORD STOPPED";
     });
