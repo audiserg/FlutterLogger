@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _startTcpDump() async {
     // var process = await Process.start("tcpdump.exe", ["-w", "capture.pcap"],{});
-    var process = await Process.start("direct.lnk", []);
+    var process = await Process.start("direct.lnk", [], runInShell: true);
     _pid = process.pid;
     setState(() {
       _statusText = "RECORDING";
