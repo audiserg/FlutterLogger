@@ -79,6 +79,10 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void _clearLog() {
+    Process.start("clear.lnk", [], runInShell: true);
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -97,7 +101,6 @@ class _MyHomePageState extends State<MyHomePage> {
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
           child: SizedBox(
-            height: 200,
             child: Column(
               // Column is also a layout widget. It takes a list of children and
               // arranges them vertically. By default, it sizes itself to fit its
@@ -114,10 +117,9 @@ class _MyHomePageState extends State<MyHomePage> {
               // axis because Columns are vertical (the cross axis would be
               // horizontal).
               mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                // Image.network(
-                //     "https://ecutula.ru/wp-content/uploads/2021/09/logo-1-300x300.png"),
+                Image.file(File("logo.png")),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         minimumSize: const Size(100, 30)),
@@ -128,9 +130,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         minimumSize: const Size(100, 30)),
                     onPressed: _stopTcpDump,
                     child: const Text("STOP")),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(100, 30)),
+                    onPressed: _clearLog,
+                    child: const Text("CLEAR")),
                 Text(
                   _statusText,
-                  style: Theme.of(context).textTheme.headline4,
+                  style: Theme.of(context).textTheme.headline5,
                 ),
               ],
             ),
